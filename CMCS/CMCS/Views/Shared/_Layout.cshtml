@@ -20,6 +20,12 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Register">Register</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Lecturer" asp-action="Index">Lecturer</a>
                         </li>
                         <li class="nav-item">
@@ -27,6 +33,17 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Manager" asp-action="Index">Manager</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="claimsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Claims
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="claimsDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Claims" asp-action="Submit">Submit Claim</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Claims" asp-action="Track">Track Claims</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Claims" asp-action="PreApprove">Pre-Approve</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Claims" asp-action="Approve">Approve</a></li>
+                            </ul>
                         </li>
                     </ul>
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using CMCS.Models; // so we can use our models
 
 namespace CMCS.Controllers
 {
@@ -6,7 +7,14 @@ namespace CMCS.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            //Fake Data
+            var claims = new List<Claim>
+            {
+                new Claim { ClaimID = 101, HoursWorked = 12, HourlyRate = 250, Status = "Pending", Lecturer = new Lecturer { Name = "Bulelani Mdolo" } },
+                new Claim { ClaimID = 102, HoursWorked = 8, HourlyRate = 300, Status = "Pending", Lecturer = new Lecturer { Name = "Ayanda Mbana" } }
+            };
+
+            return View(claims); 
         }
     }
 }

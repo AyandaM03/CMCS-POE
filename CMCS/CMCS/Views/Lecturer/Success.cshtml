@@ -1,0 +1,14 @@
+﻿@model CMCS.Models.Claim
+
+@{
+    ViewData["Title"] = "Claim Submitted";
+}
+
+<h2>Claim Submitted Successfully!</h2>
+
+<p><strong>Hours Worked:</strong> @Model.HoursWorked</p>
+<p><strong>Hourly Rate:</strong> @Model.HourlyRate</p>
+<p><strong>Status:</strong> @Model.Status</p>
+
+<a href="/Lecturer" class="btn btn-secondary">Submit Another Claim</a>
+
