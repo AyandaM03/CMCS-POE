@@ -1,19 +1,35 @@
-﻿using System.Reflection.Metadata;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMCS.Models
 {
     public class Claim
     {
-        public int ClaimID { get; set; }
-        public decimal HoursWorked { get; set; }
-        public decimal HourlyRate { get; set; }
+        [Key]
+        public int ClaimId { get; set; }
+
+        [Required]
+        [Display(Name = "Lecturer Name")]
+        public string LecturerName { get; set; }
+
+        [Required]
+        [Display(Name = "Hours Worked")]
+        public double HoursWorked { get; set; }
+
+        [Required]
+        [Display(Name = "Hourly Rate (R)")]
+        public double HourlyRate { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Total Amount (R)")]
+        public double TotalAmount => HoursWorked * HourlyRate;
+
+        [Display(Name = "Notes (Optional)")]
+        public string? Notes { get; set; }
+
         public string Status { get; set; } = "Pending";
 
-        // Foreign Key
-        public int LecturerID { get; set; }
-        public Lecturer? Lecturer { get; set; }
-
-        // Navigation
-        public List<Document>? Documents { get; set; }
+        public string? SupportingDocument { get; set; }
     }
 }
+

@@ -5,7 +5,7 @@ namespace CMCS.Models
     public class Lecturer
     {
         public int LecturerID { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string LecturerName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
 
@@ -17,3 +17,4 @@ namespace CMCS.Models
         public List<Claim>? Claims { get; set; }
     }
 }
+

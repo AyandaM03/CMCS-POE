@@ -9,10 +9,27 @@ namespace CMCS.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim { ClaimID = 101, HoursWorked = 12, HourlyRate = 250, Status = "Approved", Lecturer = new Lecturer { Name = "Bulelani Mdolo" } },
-                new Claim { ClaimID = 102, HoursWorked = 8, HourlyRate = 300, Status = "Rejected", Lecturer = new Lecturer { Name = "Ayanda Mbana" } }
+                new Claim
+                {
+                    ClaimId = 101,
+                    LecturerName = "Bulelani Mdolo",
+                    HoursWorked = 12,
+                    HourlyRate = 250,
+                    Status = "Approved"
+                },
+                new Claim
+                {
+                    ClaimId = 102,
+                    LecturerName = "Ayanda Mbana",
+                    HoursWorked = 8,
+                    HourlyRate = 300,
+                    Status = "Rejected"
+                }
             };
-            return View();
+
+            return View(claims);
         }
     }
 }
+
+
