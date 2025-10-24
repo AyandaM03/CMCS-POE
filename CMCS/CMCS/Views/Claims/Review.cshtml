@@ -1,0 +1,104 @@
+﻿@model IEnumerable<CMCS.Models.Claim>
+
+@{
+    var role = ViewData["Role"]?.ToString() ?? "Coordinator";
+    ViewData["Title"] = $"{role} - Claims Review";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-primary display-6">@ViewData["Title"]</h1>
+        <p class="text-muted">View, verify, and approve lecturer claims efficiently.</p>
+    </div>
+
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-body p-4">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Lecturer</th>
+                        <th>Hours</th>
+                        <th>Rate (R)</th>
+                        <th>Total (R)</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                        <th>Document</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@c.LecturerName</td>
+                            <td>@c.HoursWorked</td>
+                            <td>@c.HourlyRate</td>
+                            <td class="fw-semibold text-success">@c.TotalAmount.ToString("C0")</td>
+                            <td>@c.SubmittedDate.ToShortDateString()</td>
+                            <td>
+                                <span class="badge
+                                        @(c.Status == "Approved" ? "bg-success" :
+                                                                            c.Status == "Rejected" ? "bg-danger" :
+                                                                            c.Status == "PreApproved" ? "bg-info text-dark" :
+                                                                            "bg-warning text-dark")">
+                                @c.Status
+                            </span>
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(c.SupportingDocument))
+                                {
+                                    <a href="@Url.Content("~/uploads/" + c.SupportingDocument)" target="_blank" class="link-primary text-decoration-none">View</a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">—</span>
+                                }
+                            </td>
+                            <td>
+                                <form asp-action="ChangeStatus" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@c.ClaimId" />
+                                    @Html.AntiForgeryToken()
+
+                                    @if (role == "Coordinator")
+                                    {
+                                        <button name="actionType" value="PreApprove" class="btn btn-outline-success btn-sm">Pre-Approve</button>
+                                        <button name="actionType" value="Reject" class="btn btn-outline-danger btn-sm">Reject</button>
+                                    }
+                                    else if (role == "Manager")
+                                    {
+                                        <button name="actionType" value="Approve" class="btn btn-outline-success btn-sm">Approve</button>
+                                        <button name="actionType" value="Reject" class="btn btn-outline-danger btn-sm">Reject</button>
+                                    }
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f7f9fb;
+    }
+
+    h1 {
+        font-family: 'Segoe UI', sans-serif;
+        letter-spacing: 0.5px;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #e9f2ff;
+        transition: all 0.2s ease;
+    }
+
+    .btn {
+        transition: all 0.2s ease;
+    }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+</style>

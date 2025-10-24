@@ -1,14 +1,93 @@
 ﻿@model CMCS.Models.Claim
-
 @{
-    ViewData["Title"] = "Claim Submitted";
+    ViewData["Title"] = "Claim Submitted Successfully";
 }
 
-<h2>Claim Submitted Successfully!</h2>
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <div class="mb-3">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+        </div>
+        <h1 class="fw-bold text-success">Claim Submitted Successfully!</h1>
+        <p class="text-muted">Your claim has been submitted and is now pending approval.</p>
+    </div>
 
-<p><strong>Hours Worked:</strong> @Model.HoursWorked</p>
-<p><strong>Hourly Rate:</strong> @Model.HourlyRate</p>
-<p><strong>Status:</strong> @Model.Status</p>
+    <div class="card shadow border-0 rounded-4 mx-auto" style="max-width: 700px;">
+        <div class="card-body p-4">
+            <h4 class="text-primary mb-3">Claim Details</h4>
+            <table class="table table-borderless align-middle">
+                <tbody>
+                    <tr>
+                        <th class="text-muted">Claim ID:</th>
+                        <td>@Model.ClaimId</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Lecturer:</th>
+                        <td>@Model.LecturerName</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Hours Worked:</th>
+                        <td>@Model.HoursWorked</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Hourly Rate:</th>
+                        <td>R @Model.HourlyRate</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Total Amount:</th>
+                        <td class="fw-semibold text-success">R @Model.TotalAmount</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Status:</th>
+                        <td>
+                            <span class="badge bg-warning text-dark">@Model.Status</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Submitted On:</th>
+                        <td>@Model.SubmittedDate.ToShortDateString()</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Supporting Document:</th>
+                        <td>
+                            @if (!string.IsNullOrEmpty(Model.SupportingDocument))
+                            {
+                                <a href="~/uploads/@Model.SupportingDocument" target="_blank" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-file-earmark-text"></i> View File
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No document uploaded</span>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-<a href="/Lecturer" class="btn btn-secondary">Submit Another Claim</a>
+            <div class="text-center mt-4">
+                <a asp-controller="Lecturer" asp-action="Track" class="btn btn-success px-4 py-2">
+                    <i class="bi bi-graph-up-arrow"></i> Track My Claim
+                </a>
+                <a asp-controller="Lecturer" asp-action="Index" class="btn btn-outline-secondary px-4 py-2 ms-2">
+                    <i class="bi bi-plus-circle"></i> Submit Another Claim
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
+<style>
+    body {
+        background-color: #f7f9fb;
+    }
+
+    th {
+        width: 35%;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+        padding: 0.6rem;
+    }
+</style>

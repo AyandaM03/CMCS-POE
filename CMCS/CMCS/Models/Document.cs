@@ -1,13 +1,14 @@
-﻿namespace CMCS.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace CMCS.Models
 {
     public class Document
     {
-        public int DocumentID { get; set; }
+        [Key]
+        public int DocumentId { get; set; }
+        public int ClaimId { get; set; }
         public string FileName { get; set; } = string.Empty;
-        public string FilePath { get; set; } = string.Empty;
-
-        // Foreign Key
-        public int ClaimID { get; set; }
-        public Claim? Claim { get; set; }
+        public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
     }
 }

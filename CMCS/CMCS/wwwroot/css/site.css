@@ -1,22 +1,38 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+    background-color: #f8fafc;
+    font-family: 'Inter', sans-serif;
+}
+
+.navbar {
+    background: linear-gradient(90deg, #0078ff, #00c3ff);
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: 600;
+}
+
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+    .table thead {
+        background-color: #0078ff;
+        color: #fff;
+    }
+
+.btn {
+    border-radius: 8px !important;
+    font-weight: 500;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMCS.Models
@@ -10,7 +11,7 @@ namespace CMCS.Models
 
         [Required]
         [Display(Name = "Lecturer Name")]
-        public string LecturerName { get; set; }
+        public string LecturerName { get; set; } = string.Empty;
 
         [Required]
         [Display(Name = "Hours Worked")]
@@ -27,9 +28,18 @@ namespace CMCS.Models
         [Display(Name = "Notes (Optional)")]
         public string? Notes { get; set; }
 
-        public string Status { get; set; } = "Pending";
-
+        // ✅ NEW FIELD — uploaded file name/path
+        [Display(Name = "Supporting Document")]
         public string? SupportingDocument { get; set; }
+
+        // ✅ NEW FIELD — automatically records when claim is submitted
+        [Display(Name = "Submitted Date")]
+        public DateTime SubmittedDate { get; set; } = DateTime.Now;
+
+        // ✅ existing field for status tracking
+        public string Status { get; set; } = "Pending";
+   
+    
     }
 }
 

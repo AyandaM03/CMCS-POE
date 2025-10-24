@@ -3,6 +3,7 @@ using System;
 using CMCS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CMCS.Migrations
 {
     [DbContext(typeof(CMCSContext))]
-    partial class CMCSContextModelSnapshot : ModelSnapshot
+    [Migration("20251021110500_AddClaimDocumentAndStatus")]
+    partial class AddClaimDocumentAndStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
@@ -43,10 +46,10 @@ namespace CMCS.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("SubmittedDate")
+                    b.Property<DateTime>("SubmittedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SupportingDocument")
+                    b.Property<string>("SupportingDocumentFileName")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ClaimId");
