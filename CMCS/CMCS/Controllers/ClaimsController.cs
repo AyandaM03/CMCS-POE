@@ -1,28 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CMCS.Data;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace CMCS.Controllers
 {
     public class ClaimsController : Controller
     {
-        public IActionResult Submit()
+        private readonly CMCSContext _context;
+
+        public ClaimsController(CMCSContext context)
         {
-            return View();
+            _context = context;
         }
 
         public IActionResult Track()
         {
-            return View();
-        }
+            // Fetch all claims from the database, ordered newest first
+            var claims = _context.Claims
+                .OrderByDescending(c => c.SubmittedDate)
+                .ToList();
 
-        public IActionResult PreApprove()
-        {
-            return View();
-        }
+            // Ensure we never return a null model
+            if (claims == null)
+            {
+                claims = new List<Models.Claim>();
+            }
 
-        public IActionResult Approve()
-        {
-            return View();
+            return View(claims); // Pass list to Track.cshtml
         }
     }
 }
+
 
