@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace CMCS.Tests
 {
-    public class ClaimsTest
+    public class ClaimsCalculationTests
+
     {
         private CMCSContext GetDbContext()
         {
