@@ -31,17 +31,18 @@
                                asp-controller="Lecturer" asp-action="Index">Lecturer</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Coordinator" asp-action="Index">Project Manager and Coordinator</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Coordinator" asp-action="Index">Project Coordinator</a>
                       
                         <li class="nav-item dropdown">
                         <li class="nav-item">
                          
                             <a class="nav-link dropdown-toggle text-dark" href="#" id="claimsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Claims
+                                Project Manager
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="claimsDropdown">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Claims" asp-action="Submit">Submit Claim</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Claims" asp-action="Track">Track Claims</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Coordinator" asp-action="Index">Project Coordintor</a>
+
                                 <li><a class="dropdown-item" asp-controller="Manager" asp-action="Index">Approve</a></li>
 
                             </ul>
