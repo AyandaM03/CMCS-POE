@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Coordinator\**" />
+    <Compile Remove="Views\Manager\**" />
+    <Compile Remove="Views\NewFolder\**" />
+    <Content Remove="Views\Coordinator\**" />
+    <Content Remove="Views\Manager\**" />
+    <Content Remove="Views\NewFolder\**" />
+    <EmbeddedResource Remove="Views\Coordinator\**" />
+    <EmbeddedResource Remove="Views\Manager\**" />
+    <EmbeddedResource Remove="Views\NewFolder\**" />
+    <None Remove="Views\Coordinator\**" />
+    <None Remove="Views\Manager\**" />
+    <None Remove="Views\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Claims\PreApprove.cshtml" />
   </ItemGroup>
 
@@ -17,12 +32,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Coordinator\" />
-    <Folder Include="Views\Manager\" />
-    <Folder Include="Views\NewFolder\" />
   </ItemGroup>
 
 </Project>
