@@ -1,5 +1,19 @@
 ﻿@model IEnumerable<CMCS.Models.Claim>
 
+@functions {
+    string GetStatusBadge(string status)
+    {
+        return status switch
+        {
+            "Pending" => "badge bg-warning text-dark",
+            "PreApproved" => "badge bg-primary",
+            "Approved" => "badge bg-success",
+            "Rejected" => "badge bg-danger",
+            _ => "badge bg-secondary"
+        };
+    }
+    }
+
 <h2>Academic Manager – Approve Claims</h2>
 
 <table class="table table-bordered table-striped mt-3">
