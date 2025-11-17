@@ -1,31 +1,46 @@
-﻿@{
-    ViewData["Title"] = "Approve Claims";
-}
+﻿@model IEnumerable<CMCS.Models.Claim>
 
-<h2>Approve Claims</h2>
+<h2>Academic Manager – Approve Claims</h2>
 
-<table class="table table-striped">
-    <thead>
+<table class="table table-bordered table-striped mt-3">
+    <thead class="table-dark">
         <tr>
-            <th>Claim ID</th>
+            <th>ID</th>
             <th>Lecturer</th>
-            <th>Hours</th>
+
             <th>Total</th>
             <th>Status</th>
+            <th>Document</th>
             <th>Action</th>
         </tr>
     </thead>
+
     <tbody>
-        <tr>
-            <td>501</td>
-            <td>Snezo Ngcobo</td>
-            <td>20</td>
-            <td>6000</td>
-            <td>Pre-Approved</td>
-            <td>
-                <button class="btn btn-success btn-sm">Approve</button>
-                <button class="btn btn-danger btn-sm">Reject</button>
-            </td>
-        </tr>
+        @foreach (var c in Model.Where(x => x.Status == "PreApproved"))
+        {
+            <tr>
+                <td>@c.ClaimId</td>
+                <td>@c.LecturerName</td>
+                <td>@c.TotalAmount</td>
+                <td>@c.Status</td>
+
+                <td>
+                    @if (!string.IsNullOrEmpty(c.SupportingDocument))
+                    {
+                        <a href="~/uploads/@c.SupportingDocument" target="_blank"
+                           class="btn btn-secondary btn-sm">View File</a>
+                    }
+                </td>
+
+                <td>
+                    <form asp-action="UpdateStatus" method="post">
+                        <input type="hidden" name="id" value="@c.ClaimId" />
+
+                        <button name="status" value="Approved" class="btn btn-success btn-sm">Approve</button>
+                        <button name="status" value="Rejected" class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

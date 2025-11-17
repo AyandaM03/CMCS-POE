@@ -1,0 +1,96 @@
+﻿@model IEnumerable<CMCS.Models.Claim>
+
+@{
+    ViewData["Title"] = "Track Claims";
+}
+
+<h2>TProgramme Coordinator - Pre Approve Claims</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Claim ID</th>
+            <th>Lecturer Name</th>
+            <th>Hours</th>
+            <th>Rate (R)</th>
+            <th>Total (R)</th>
+            <th>Submitted</th>
+            <th>Status</th>
+            <th>Document</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.ClaimId</td>
+                <td>@c.LecturerName</td>
+                <td>@c.HoursWorked</td>
+                <td>@c.HourlyRate</td>
+                <td><strong>@c.TotalAmount</strong></td>
+                <td>@c.SubmittedDate.ToShortDateString()</td>
+
+                <!-- Status with colour badge -->
+                <td>
+                    @if (c.Status == "Pending")
+                    {
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    }
+                    else if (c.Status == "PreApproved")
+                    {
+                        <span class="badge bg-info text-dark">Pre-Approved</span>
+                    }
+                    else if (c.Status == "Rejected")
+                    {
+                        <span class="badge bg-danger">Rejected</span>
+                    }
+                </td>
+
+                <!-- File download link -->
+                <td>
+                    @if (!string.IsNullOrEmpty(c.SupportingDocument))
+                    {
+                        <a href="~/uploads/@c.SupportingDocument" target="_blank" class="btn btn-sm btn-secondary">
+                            View File
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No File</span>
+                    }
+                </td>
+
+                <!-- Action buttons -->
+
+
+                <td>
+
+                    <!-- Lecturer sees nothing -->
+                    <!-- Coordinator / Manager options -->
+                    <form asp-action="UpdateStatus" method="post" class="d-flex gap-1">
+                        <input type="hidden" name="id" value="@c.ClaimId" />
+
+                        <button name="status" value="PreApproved"
+                                class="btn btn-sm btn-info text-white">
+                            Pre-Approve
+                        </button>
+
+                        <button name="status" value="Rejected"
+                                class="btn btn-sm btn-danger">
+                            Reject
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
