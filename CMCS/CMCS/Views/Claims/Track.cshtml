@@ -1,100 +1,105 @@
 ﻿@model IEnumerable<CMCS.Models.Claim>
 
 @{
-    ViewData["Title"] = "Track My Claims";
+    ViewData["Title"] = "Track Claims";
 }
 
-<div class="container py-5">
-    <div class="text-center mb-5">
-        <h1 class="fw-bold text-primary display-6">Track My Claims</h1>
-        <p class="text-muted">Monitor your claim’s progress from submission to final approval.</p>
-    </div>
+<h2>Track Your Claims</h2>
 
-  
-    <div class="card shadow border-0 rounded-4">
-        <div class="card-body p-4">
-            <table class="table table-hover align-middle text-center">
-                <thead class="table-primary">
-                    <tr>
-                        <th>Claim ID</th>
-                        <th>Hours</th>
-                        <th>Total (R)</th>
-                        <th>Status</th>
-                        <th>Progress</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var c in Model)
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Message"]
+    </div>
+}
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Claim ID</th>
+            <th>Lecturer Name</th>
+            <th>Hours</th>
+            <th>Rate (R)</th>
+            <th>Total (R)</th>
+            <th>Submitted</th>
+            <th>Status</th>
+            <th>Document</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.ClaimId</td>
+                <td>@c.LecturerName</td>
+                <td>@c.HoursWorked</td>
+                <td>@c.HourlyRate</td>
+                <td><strong>@c.TotalAmount</strong></td>
+                <td>@c.SubmittedDate.ToShortDateString()</td>
+
+                <!-- Status with colour badge -->
+                <td>
+                    @if (c.Status == "Pending")
                     {
-                        string progressClass = c.Status switch
-                        {
-                            "Pending" => "25",
-                            "PreApproved" => "50",
-                            "Approved" => "100",
-                            "Rejected" => "0",
-                            _ => "0"
-                        };
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    }
+                    else if (c.Status == "PreApproved")
+                    {
+                        <span class="badge bg-info text-dark">Pre-Approved</span>
+                    }
+                    else if (c.Status == "Approved")
+                    {
+                        <span class="badge bg-success">Approved</span>
+                    }
+                    else if (c.Status == "Rejected")
+                    {
+                        <span class="badge bg-danger">Rejected</span>
+                    }
+                </td>
 
-                        string progressColor = c.Status switch
-                        {
-                            "Pending" => "bg-warning",
-                            "PreApproved" => "bg-info",
-                            "Approved" => "bg-success",
-                            "Rejected" => "bg-danger",
-                            _ => "bg-secondary"
-                        };
+                <!-- File download link -->
+                <td>
+                    @if (!string.IsNullOrEmpty(c.SupportingDocument))
+                    {
+                        <a href="~/uploads/@c.SupportingDocument" target="_blank" class="btn btn-sm btn-secondary">
+                            View File
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">No File</span>
+                    }
+                </td>
 
-                        <tr>
-                            <td>@c.ClaimId</td>
-                            <td>@c.HoursWorked</td>
-                            <td>@c.TotalAmount.ToString("C0")</td>
-                            <td>
-                                <span class="badge
-                                        @(c.Status == "Approved" ? "bg-success" :
-                                                                            c.Status == "Rejected" ? "bg-danger" :
-                                                                            c.Status == "PreApproved" ? "bg-info text-dark" :
-                                                                            "bg-warning text-dark")">
-                                @c.Status
-                            </span>
-                        </td>
-                        <td style="width: 200px;">
-                            <div class="progress" style="height: 10px;">
-                                <div class="progress-bar @progressColor" role="progressbar" style="width:@progressClass%"
-                                     aria-valuenow="@progressClass" aria-valuemin="0" aria-valuemax="100">
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <a class="btn btn-sm btn-outline-primary" asp-action="Index" asp-controller="Lecturer">Edit</a>
-                            <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-controller="Lecturer" asp-route-id="@c.ClaimId">Cancel</a>
-                        </td>
-                    </tr>
-                                        }
-                </tbody>
-            </table>
-        </div>
-    </div>
+               <!-- Action buttons -->
 
-</div>
 
-<style>
-    body {
-        background-color: #f7f9fb;
-    }
+                <td>
 
-    .progress {
-        border-radius: 10px;
-        overflow: hidden;
-    }
+                    <!-- Lecturer sees nothing -->
+                    <!-- Coordinator / Manager options -->
+                    <form asp-action="UpdateStatus" method="post" class="d-flex gap-1">
+                        <input type="hidden" name="id" value="@c.ClaimId" />
 
-    .progress-bar {
-        transition: width 0.5s ease-in-out;
-    }
+                        <button name="status" value="PreApproved"
+                                class="btn btn-sm btn-info text-white">
+                            Pre-Approve
+                        </button>
 
-    .table-hover tbody tr:hover {
-        background-color: #e9f5ff;
-        transition: 0.3s ease;
-    }
-</style>
+                        <button name="status" value="Approved"
+                                class="btn btn-sm btn-success">
+                            Approve
+                        </button>
 
+                        <button name="status" value="Rejected"
+                                class="btn btn-sm btn-danger">
+                            Reject
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
