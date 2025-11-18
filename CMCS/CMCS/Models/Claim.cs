@@ -35,6 +35,8 @@ namespace CMCS.Models
         public DateTime SubmittedDate { get; set; } = DateTime.Now;
 
         public string Status { get; set; } = "Pending";
+
+
     }
 }
 
