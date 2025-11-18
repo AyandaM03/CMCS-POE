@@ -1,58 +1,45 @@
 ﻿@model IEnumerable<CMCS.Models.Claim>
 
-@functions {
-    string GetStatusBadge(string status)
-    {
-        return status switch
-        {
-            "Pending" => "badge bg-warning text-dark",
-            "PreApproved" => "badge bg-primary",
-            "Approved" => "badge bg-success",
-            "Rejected" => "badge bg-danger",
-            _ => "badge bg-secondary"
-        };
-    }
+<h2>My Submitted Claims</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>You have not submitted any claims yet.</p>
+}
+else
+{
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Total (R)</th>
+                <th>Status</th>
+                <th>Submitted Date</th>
+                <th>Document</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var claim in Model)
+            {
+                <tr>
+                    <td>@claim.ClaimId</td>
+                    <td>R @claim.TotalAmount</td>
+                    <td>@claim.Status</td>
+                    <td>@claim.SubmittedDate.ToString("yyyy-MM-dd HH:mm")</td>
+
+                    <td>
+                        @if (!string.IsNullOrEmpty(claim.SupportingDocument))
+                        {
+                            <a href="~/uploads/@claim.SupportingDocument" class="btn btn-secondary btn-sm" target="_blank">
+                                View
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 
-<h2 class="mb-4">My Claims</h2>
-
-<table class="table table-bordered table-striped">
-    <thead class="table-dark">
-        <tr>
-            <th>Lecturer Name</th>
-            <th>Hours Worked</th>
-            <th>Hourly Rate</th>
-            <th>Total Amount</th>
-            <th>Status</th>
-            <th>Uploaded Document</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.LecturerName</td>
-                <td>@item.HoursWorked</td>
-                <td>@item.HourlyRate</td>
-                <td>@item.TotalAmount</td>
-                <td>
-                    <span class="@GetStatusBadge(item.Status)">
-                        @item.Status
-                    </span>
-                </td>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.SupportingDocument))
-                    {
-                        <a href="~/uploads/@item.SupportingDocument" target="_blank">View</a>
-                    }
-                    else
-                    {
-                        <em>No file</em>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 

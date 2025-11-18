@@ -28,18 +28,14 @@ namespace CMCS.Models
         [Display(Name = "Notes (Optional)")]
         public string? Notes { get; set; }
 
-        
         [Display(Name = "Supporting Document")]
         public string? SupportingDocument { get; set; }
 
-        
         [Display(Name = "Submitted Date")]
         public DateTime SubmittedDate { get; set; } = DateTime.Now;
 
-
         public string Status { get; set; } = "Pending";
-   
-    
     }
 }
+
 
