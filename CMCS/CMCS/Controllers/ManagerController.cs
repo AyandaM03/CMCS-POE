@@ -15,7 +15,7 @@ namespace CMCS.Controllers
         public IActionResult Index()
         {
             var claims = _context.Claims
-                                .Where(c => c.Status == "PreApproved")
+                                .Where(c => c.Status == "Pre-Approved")
                                 .ToList();
 
             return View("~/Views/Claims/Approve.cshtml", claims);

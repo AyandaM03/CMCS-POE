@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CMCS.Models.Claim>
+@{
+    ViewData["Title"] = "HR Dashboard - Approved Claims";
+}
+
+<h2>HR Dashboard — Approved Claims</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No approved claims found.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Claim ID</th>
+                    <th>Lecturer</th>
+                    <th>Hours</th>
+                    <th>Rate (R)</th>
+                    <th>Total (R)</th>
+                    <th>Document</th>
+                    <th>Status</th>
+                    <th>Submitted</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@c.ClaimId</td>
+                        <td>@c.LecturerName</td>
+                        <td>@c.HoursWorked</td>
+                        <td>@String.Format("{0:N2}", c.HourlyRate)</td>
+                        <td>@String.Format("{0:N2}", c.HoursWorked * c.HourlyRate)</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(c.SupportingDocument))
+                            {
+                                <a class="btn btn-sm btn-outline-primary" href="~/uploads/@c.SupportingDocument" target="_blank">View</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No file</span>
+                            }
+                        </td>
+                        <td>@c.Status</td>
+                        <td>@c.SubmittedDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" asp-controller="HR" asp-action="Invoice" asp-route-id="@c.ClaimId" target="_blank">Generate Invoice</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+

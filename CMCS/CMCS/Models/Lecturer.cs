@@ -5,9 +5,12 @@ namespace CMCS.Models
     public class Lecturer
     {
         public int LecturerID { get; set; }
+
+        public string Name { get; set; } = "";
         public string LecturerName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+     
 
         // Foreign Key
         public int RoleID { get; set; }

@@ -1,0 +1,132 @@
+﻿@model CMCS.Models.Claim
+@{
+    Layout = null; // printable standalone view; remove if you want to use layout
+    ViewData["Title"] = "Invoice - Claim " + Model.ClaimId;
+    var total = Model.HoursWorked * Model.HourlyRate;
+}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Invoice - Claim @Model.ClaimId</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 40px;
+            color: #222;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .company {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .meta {
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .line {
+            border-top: 1px solid #ccc;
+            margin: 12px 0 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .total {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .print {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="print">
+        <button onclick="window.print()">Print/Save PDF</button>
+    </div>
+
+    <div class="header">
+        <div>
+            <div class="company">Contract Monthly Claim System (CMCS)</div>
+            <div>HR Invoice</div>
+        </div>
+        <div class="meta">
+            <div>Invoice for claim #: <strong>@Model.ClaimId</strong></div>
+            <div>Date: @DateTime.Now.ToString("yyyy-MM-dd")</div>
+        </div>
+    </div>
+
+    <div>
+        <strong>Lecturer:</strong> @Model.LecturerName <br />
+        <strong>Submitted:</strong> @Model.SubmittedDate.ToString("yyyy-MM-dd HH:mm") <br />
+        <strong>Status:</strong> @Model.Status
+    </div>
+
+    <div class="line"></div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th class="right">Hours</th>
+                <th class="right">Rate (R)</th>
+                <th class="right">Amount (R)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Teaching / Contract hours</td>
+                <td class="right">@Model.HoursWorked</td>
+                <td class="right">@String.Format("{0:N2}", Model.HourlyRate)</td>
+                <td class="right">@String.Format("{0:N2}", total)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="right total">Total</td>
+                <td class="right total">@String.Format("{0:N2}", total)</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="note">
+        <strong>Notes:</strong><br />
+        @Html.Raw(Model.Notes ?? "<em>None</em>")
+    </div>
+
+</body>
+</html>
+

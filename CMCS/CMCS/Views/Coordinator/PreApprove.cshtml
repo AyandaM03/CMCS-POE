@@ -1,0 +1,109 @@
+﻿@model IEnumerable<CMCS.Models.Claim>
+@{
+    ViewData["Title"] = "Coordinator Dashboard - Pending Claims";
+}
+
+<h2>Coordinator Dashboard — Pending Claims</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No pending claims available.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Claim ID</th>
+                    <th>Lecturer</th>
+                    <th>Hours</th>
+                    <th>Rate (R)</th>
+                    <th>Total (R)</th>
+                    <th>Document</th>
+                    <th>Submitted</th>
+                    <th>Notes</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td>@c.ClaimId</td>
+                        <td>@c.LecturerName</td>
+                        <td>@c.HoursWorked</td>
+                        <td>@String.Format("{0:N2}", c.HourlyRate)</td>
+                        <td>@String.Format("{0:N2}", c.HoursWorked * c.HourlyRate)</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(c.SupportingDocument))
+                            {
+                                <a class="btn btn-sm btn-outline-primary" href="~/uploads/@c.SupportingDocument" target="_blank">View</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No file</span>
+                            }
+                        </td>
+                        <td>@c.SubmittedDate.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td style="max-width:220px; overflow-wrap:break-word;">@c.Notes</td>
+                        <td class="text-center" style="min-width:180px;">
+                            <form asp-controller="Coordinator" asp-action="PreApprove" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@c.ClaimId" />
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-success btn-sm mb-1">Pre-Approve</button>
+                            </form>
+
+                            <button class="btn btn-danger btn-sm mb-1" onclick="openReject(@c.ClaimId)">Reject</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<script>
+    function openReject(id) {
+        const reason = prompt("Enter rejection reason for Claim #" + id + " (optional):");
+        if (reason !== null) {
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/Coordinator/Reject";
+
+            const anti = document.createElement("input");
+            anti.type = "hidden";
+            anti.name = "__RequestVerificationToken";
+            const tokenElem = document.querySelector('input[name="__RequestVerificationToken"]');
+            if (tokenElem) {
+                anti.value = tokenElem.value;
+                form.appendChild(anti);
+            }
+
+            const idField = document.createElement("input");
+            idField.type = "hidden";
+            idField.name = "id";
+            idField.value = id;
+            form.appendChild(idField);
+
+            const reasonField = document.createElement("input");
+            reasonField.type = "hidden";
+            reasonField.name = "reason";
+            reasonField.value = reason;
+            form.appendChild(reasonField);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>

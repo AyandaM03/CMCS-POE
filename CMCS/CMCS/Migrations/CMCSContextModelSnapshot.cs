@@ -15,7 +15,7 @@ namespace CMCS.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.10");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
 
             modelBuilder.Entity("CMCS.Models.Claim", b =>
                 {
@@ -88,6 +88,10 @@ namespace CMCS.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LecturerName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

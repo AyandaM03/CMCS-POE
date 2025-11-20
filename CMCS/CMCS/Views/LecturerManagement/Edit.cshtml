@@ -1,0 +1,26 @@
+﻿@model CMCS.Models.Lecturer
+@{
+    ViewData["Title"] = "Edit Lecturer";
+}
+
+<h2>Edit Lecturer</h2>
+
+<form asp-action="Edit" method="post" class="p-3 bg-white rounded shadow">
+    <input type="hidden" asp-for="LecturerID" />
+
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+</form>
+

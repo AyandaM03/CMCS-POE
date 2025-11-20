@@ -1,46 +1,71 @@
 ﻿@model IEnumerable<CMCS.Models.Claim>
 
-<h2>Academic Manager – Approve Claims</h2>
+@{
+    ViewData["Title"] = "Manager Approval – Pre-Approved Claims";
+}
 
-<table class="table table-bordered table-striped mt-3">
-    <thead class="table-dark">
-        <tr>
-            <th>ID</th>
-            <th>Lecturer</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Document</th>
-            <th>Action</th>
-        </tr>
-    </thead>
+<h2>Manager Dashboard — Claims Awaiting Final Approval</h2>
 
-    <tbody>
-        @foreach (var c in Model.Where(x => x.Status == "PreApproved"))
-        {
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No claims are currently awaiting final approval.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
             <tr>
-                <td>@c.ClaimId</td>
-                <td>@c.LecturerName</td>
-                <td>@c.TotalAmount</td>
-                <td>@c.Status</td>
-
-                <td>
-                    @if (!string.IsNullOrEmpty(c.SupportingDocument))
-                    {
-                        <a href="~/uploads/@c.SupportingDocument" target="_blank"
-                           class="btn btn-secondary btn-sm">View File</a>
-                    }
-                </td>
-
-                <td>
-                    <form asp-action="UpdateStatus" method="post">
-                        <input type="hidden" name="id" value="@c.ClaimId" />
-
-                        <button name="status" value="Approved" class="btn btn-success btn-sm">Approve</button>
-                        <button name="status" value="Rejected" class="btn btn-danger btn-sm">Reject</button>
-                    </form>
-                </td>
+                <th>Claim ID</th>
+                <th>Lecturer</th>
+                <th>Hours</th>
+                <th>Rate</th>
+                <th>Total</th>
+                <th>Document</th>
+                <th>Notes</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td>@c.ClaimId</td>
+                    <td>@c.LecturerName</td>
+                    <td>@c.HoursWorked</td>
+                    <td>@c.HourlyRate</td>
+                    <td>@(c.HoursWorked* c.HourlyRate)</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(c.SupportingDocument))
+                        {
+                            <a href="~/uploads/@c.SupportingDocument" target="_blank" class="btn btn-sm btn-secondary">View</a>
+                        }
+                        else
+                        {
+
+                            <span>No File</span>
+                        }
+                    </td>
+
+                    <td>@c.Notes</td>
+
+                    <td>
+                        <form asp-action="UpdateStatus" asp-controller="Manager" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@c.ClaimId" />
+                            <input type="hidden" name="status" value="Approved" />
+                            <button class="btn btn-success btn-sm">Approve</button>
+                        </form>
+
+                        <form asp-action="UpdateStatus" asp-controller="Manager" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@c.ClaimId" />
+                            <input type="hidden" name="status" value="Rejected" />
+                            <button class="btn btn-danger btn-sm">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
