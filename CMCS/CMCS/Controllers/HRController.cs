@@ -14,10 +14,10 @@ namespace CMCS.Controllers
             _context = context;
         }
 
-        // HR Dashboard: show all manager-approved claims for payroll/reporting
+        // HR Dashboard
         public async Task<IActionResult> Index()
         {
-            // Only final approved claims (manager-approved)
+            
             var approved = await _context.Claims
                 .Where(c => c.Status == "Approved_Manager" || c.Status == "Approved")
                 .OrderByDescending(c => c.SubmittedDate)
@@ -26,7 +26,7 @@ namespace CMCS.Controllers
             return View(approved);
         }
 
-        // Generate a printable HTML invoice/report for a single claim
+     
         // GET: /HR/Invoice/5
         public async Task<IActionResult> Invoice(int id)
         {
@@ -39,7 +39,7 @@ namespace CMCS.Controllers
             return View(claim);
         }
 
-        // Optional: bulk report (simple HTML view listing multiple claims)
+       
         public async Task<IActionResult> BulkReport()
         {
             var approved = await _context.Claims

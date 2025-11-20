@@ -36,7 +36,7 @@
         <input id="totalAmount" class="form-control" readonly />
     </div>
 
-    <!-- Hidden field POSTED to the database -->
+  
     <input type="hidden" id="CalculatedAmount" name="CalculatedAmount" />
 
     <div class="mb-3">
@@ -65,7 +65,7 @@
             // Display formatted
             document.getElementById("totalAmount").value = "R " + total.toFixed(2);
 
-            // Save raw number into hidden field (posted to DB)
+            // Save raw number into hidden field 
             document.getElementById("CalculatedAmount").value = total.toFixed(2);
         }
 

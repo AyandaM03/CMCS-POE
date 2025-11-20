@@ -17,7 +17,7 @@ namespace CMCS.Controllers
             _logger = logger;
         }
 
-        // 📄 Lecturer Claim Submission Page
+        //  Lecturer Claim Submission Page
         [HttpGet]
         public IActionResult Index()
         {
@@ -35,7 +35,7 @@ namespace CMCS.Controllers
             {
                 if (supportingFile != null && supportingFile.Length > 0)
                 {
-                    // ✅ Allowed file types and size validation
+                    //  Allowed file types and size validation
                     var allowed = new[] { ".pdf", ".docx", ".xlsx" };
                     var ext = Path.GetExtension(supportingFile.FileName).ToLowerInvariant();
 
@@ -63,11 +63,11 @@ namespace CMCS.Controllers
                         await supportingFile.CopyToAsync(fs);
                     }
 
-                    // ✅ Store file name in your model property
+                    // 
                     claim.SupportingDocument = unique;
                 }
 
-                // ✅ Store submission time
+                // Store submission time
                 claim.SubmittedDate = DateTime.Now;
                 claim.Status = "Pending";
 
@@ -84,7 +84,7 @@ namespace CMCS.Controllers
             }
         }
 
-        // 🧭 Lecturer Claim Tracking Page
+        //  Lecturer Claim Tracking Page
         [HttpGet]
         public IActionResult Track()
         {

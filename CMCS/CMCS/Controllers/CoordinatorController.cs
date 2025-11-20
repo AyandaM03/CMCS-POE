@@ -47,7 +47,7 @@ namespace CMCS.Controllers
         }
 
         // -----------------------------------------------------
-        // COORDINATOR REJECTS (includes reason)
+        // COORDINATOR REJECTS
         // -----------------------------------------------------
         [HttpPost]
         [ValidateAntiForgeryToken]

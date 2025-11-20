@@ -1,6 +1,6 @@
 ﻿@model CMCS.Models.Claim
 @{
-    Layout = null; // printable standalone view; remove if you want to use layout
+    Layout = null; // printable standalone view
     ViewData["Title"] = "Invoice - Claim " + Model.ClaimId;
     var total = Model.HoursWorked * Model.HourlyRate;
 }
