@@ -27,7 +27,7 @@ namespace CMCS.Controllers
         }
 
      
-        // GET: /HR/Invoice/5
+        // GET: /HR/Invoice/
         public async Task<IActionResult> Invoice(int id)
         {
             var claim = await _context.Claims
