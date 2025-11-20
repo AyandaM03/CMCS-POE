@@ -69,6 +69,17 @@
                                         <button name="actionType" value="Approve" class="btn btn-outline-success btn-sm">Approve</button>
                                         <button name="actionType" value="Reject" class="btn btn-outline-danger btn-sm">Reject</button>
                                     }
+
+                                    @* Automated Warning *@
+                                    @if (c.HoursWorked > 160)
+                                    {
+                                        <span class="text-danger fw-bold">⚠ High Hours</span>
+                                    }
+                                    @if (c.HourlyRate < 100 || c.HourlyRate > 600)
+                                    {
+                                        <span class="text-warning fw-bold">⚠ Unusual Rate</span>
+                                    }
+
                                 </form>
                             </td>
                         </tr>

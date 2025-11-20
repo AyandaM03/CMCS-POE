@@ -1,29 +1,33 @@
-﻿@{
+﻿@model CMCS.Models.Lecturer
+
+@{
     ViewData["Title"] = "Register";
 }
 
 <h2>Register</h2>
 
-<form>
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-controller="Auth" asp-action="Register" method="post">
+    @Html.AntiForgeryToken()
+
     <div class="mb-3">
-        <label>Name:</label>
-        <input type="text" class="form-control" />
+        <label class="form-label">Name:</label>
+        <input asp-for="Name" class="form-control" />
     </div>
 
     <div class="mb-3">
-        <label>Email:</label>
-        <input type="email" class="form-control" />
+        <label class="form-label">Email:</label>
+        <input asp-for="Email" class="form-control" type="email" />
     </div>
 
     <div class="mb-3">
-        <label>Password:</label>
-        <input type="password" class="form-control" />
+        <label class="form-label">Password:</label>
+        <input asp-for="Password" type="password" class="form-control" />
     </div>
 
-    <div class="mb-3">
-        <label>Confirm Password:</label>
-        <input type="password" class="form-control" />
-    </div>
-
-    <button type="button" class="btn btn-success">Register</button>
+    <button type="submit" class="btn btn-success">Register</button>
 </form>

@@ -14,51 +14,51 @@ namespace CMCS.Controllers
             _context = context;
         }
 
-        // List lecturers
         public async Task<IActionResult> Index()
         {
-            var list = await _context.Lecturers
-                .OrderBy(l => l.Name)
-                .ToListAsync();
-
-            return View("~/Views/LecturerManagement/Index.cshtml");
-
+            var lecturers = await _context.Lecturers.ToListAsync();
+            return View(lecturers);
         }
 
-        // GET: Edit lecturer
         public async Task<IActionResult> Edit(int id)
         {
             var lecturer = await _context.Lecturers.FindAsync(id);
             if (lecturer == null) return NotFound();
-            return View("~/Views/LecturerManagement/Index.cshtml");
 
+            return View(lecturer);
         }
 
-        // POST: Edit lecturer
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Lecturer lecturer)
+        public async Task<IActionResult> Edit(Lecturer lecturer)
         {
-            if (id != lecturer.LecturerID) return BadRequest();
-
             if (!ModelState.IsValid)
-                return View("~/Views/LecturerManagement/Index.cshtml");
+                return View(lecturer);
 
+            // Ensure role is valid
+            if (lecturer.RoleID == 0)
+                lecturer.RoleID = 1;
 
-            try
-            {
-                _context.Update(lecturer);
-                await _context.SaveChangesAsync();
-                TempData["Message"] = "Lecturer updated successfully.";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Lecturers.Any(e => e.LecturerID == id))
-                    return NotFound();
-                throw;
-            }
+            _context.Update(lecturer);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Lecturer lecturer)
+        {
+            // Ensure role is valid
+            lecturer.RoleID = 1;
+
+            _context.Add(lecturer);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
     }
 }
-

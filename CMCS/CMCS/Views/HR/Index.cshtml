@@ -5,6 +5,11 @@
 
 <h2>HR Dashboard — Approved Claims</h2>
 
+<div class="alert alert-info mt-3">
+    <strong>Total Payout:</strong> R @ViewData["TotalAmount"]
+</div>
+
+
 @if (!Model.Any())
 {
     <div class="alert alert-info">No approved claims found.</div>

@@ -10,6 +10,15 @@ namespace CMCS.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserRole>().HasData(
+                new UserRole { RoleID = 1, RoleName = "Lecturer" },
+                new UserRole { RoleID = 2, RoleName = "Coordinator" },
+                new UserRole { RoleID = 3, RoleName = "Manager" },
+                new UserRole { RoleID = 4, RoleName = "HR" }
+            );
+        }
 
         public DbSet<Claim> Claims { get; set; }
         public DbSet<Document>? Documents { get; set; }      
